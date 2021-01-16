@@ -475,7 +475,61 @@ class UIRoot extends Component {
   };
 
   shareVideo = mediaSource => {
-    this.props.scene.emit(`action_share_${mediaSource}`);
+    if (mediaSource === "actionscreen") {
+      this.props.scene.emit(`action_share_camera`);
+    } else {
+      this.props.scene.emit(`action_share_${mediaSource}`);
+    }
+
+    if (mediaSource === "actionscreen") {
+      setTimeout(function(){
+	var attachCamInterval;
+	var yCamOffset = 3.4;
+	var xCamOffset = 0;
+	var zCamOffset = 0;
+	var xPosOffset = 0;
+	var yPosOffset = 1.9;
+	var zPosOffset = 0;
+	var camHash = "vide";
+	var camEl = getFirstElementFromHash(camHash);
+	console.log(camEl);
+	camEl ? attachCamInterval = setInterval(attachCam, 100) : console.warn("You need to active your webcam first"), camEl.object3D.scale.setScalar(.5);
+	var selfEl = AFRAME.scenes[0].querySelector("#avatar-rig");
+	var povCam = selfEl.querySelector("#avatar-pov-node");
+
+	function attachCam() {
+	  attachObjToAvatar(camEl, selfEl);
+	}
+
+	function attachObjToAvatar(deploymentVersionId, _plane) {
+	  NAF.utils.getNetworkedEntity(deploymentVersionId).then((camera) => {
+	    if (!NAF.utils.isMine(camera)) {
+	      NAF.utils.takeOwnership(camera);
+	    }
+	    camera.object3D.rotation.copy(_plane.object3D.rotation);
+	    camera.object3D.rotation.y = povCam.object3D.rotation.y + yCamOffset;
+	    camera.object3D.rotation.x = xCamOffset;
+	    camera.object3D.rotation.z = zCamOffset;
+	    camera.object3D.position.copy(_plane.object3D.position);
+	    camera.object3D.position.x += xPosOffset;
+	    camera.object3D.position.y += yPosOffset;
+	    camera.object3D.position.z += zPosOffset;
+	  });
+	}
+
+	function getFirstElementFromHash(t) {
+	  var zitems = AFRAME.scenes[0].querySelectorAll("[media-loader]");
+	  var attachmentItems = [];
+	  for (let zitem of zitems) {
+	    var btn = zitem.components["media-loader"].attrValue.src.match(t);
+	    if (btn && btn.length) {
+	      attachmentItems.push(zitem);
+	    }
+	  }
+	  return attachmentItems[0];
+	}
+      }, 5000);
+    }
   };
 
   endShareVideo = () => {

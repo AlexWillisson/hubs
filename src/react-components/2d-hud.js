@@ -13,6 +13,8 @@ import ShareScreenIconActive from "../assets/images/share_screen_active.svgi";
 import ShareScreenIcon from "../assets/images/share_screen.svgi";
 import ShareCameraIconActive from "../assets/images/share_camera_active.svgi";
 import ShareCameraIcon from "../assets/images/share_camera.svgi";
+import ShareCameraHoverIconActive from "../assets/images/share_camera_hover_active.svgi";
+import ShareCameraHoverIcon from "../assets/images/share_camera_hover.svgi";
 import PenIcon from "../assets/images/pen.svgi";
 import PenIconActive from "../assets/images/pen_active.svgi";
 import CameraIcon from "../assets/images/camera.svgi";
@@ -141,7 +143,7 @@ class TopHUD extends Component {
     if (this.state.showVideoShareOptions) {
       videoShareExtraOptionTypes.push(primaryVideoShareType);
 
-      ["screen", "camera"].forEach(t => {
+      ["screen", "camera", "actionscreen"].forEach(t => {
         if (videoShareExtraOptionTypes.indexOf(t) === -1) {
           videoShareExtraOptionTypes.push(t);
         }
@@ -173,9 +175,21 @@ class TopHUD extends Component {
     const capitalize = str => str[0].toUpperCase() + str.slice(1);
     const iconForType = (type, active) => {
       if (active) {
-        return type === "screen" ? ShareScreenIconActive : ShareCameraIconActive;
+	if (type === "screen") {
+	  return ShareScreenIconActive;
+	} else if (type === "actionscreen") {
+	  return ShareCameraHoverIconActive;
+	} else {
+	  return ShareCameraIconActive;
+	}
       } else {
-        return type === "screen" ? ShareScreenIcon : ShareCameraIcon;
+	if (type === "screen") {
+	  return ShareScreenIcon;
+	} else if (type === "actionscreen") {
+	  return ShareCameraHoverIcon;
+	} else {
+	  return ShareCameraIcon;
+	}
       }
     };
 
