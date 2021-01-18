@@ -484,11 +484,7 @@ class UIRoot extends Component {
     if (mediaSource === "actionscreen") {
       var attachCamInterval;
       var yCamOffset = 3.4;
-      var xCamOffset = 0;
-      var zCamOffset = 0;
-      var xPosOffset = 0;
       var yPosOffset = 1.9;
-      var zPosOffset = 0;
       var camHash = "vide";
 
       function getFirstElementFromHash(t) {

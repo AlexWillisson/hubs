@@ -138,7 +138,9 @@ class TopHUD extends Component {
 
     const videoShareExtraOptionTypes = [];
     const primaryVideoShareType =
-      this.props.videoShareMediaSource || this.state.lastActiveMediaSource || (isMobile ? "camera" : "screen");
+      this.props.videoShareMediaSource || this.state.lastActiveMediaSource || (isMobile ? "actionscreen" : "screen");
+//    const primaryVideoShareType =
+//      this.props.videoShareMediaSource || this.state.lastActiveMediaSource || (isMobile ? "camera" : "screen");
 
     if (this.state.showVideoShareOptions) {
       videoShareExtraOptionTypes.push(primaryVideoShareType);
